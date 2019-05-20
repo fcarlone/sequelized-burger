@@ -1,0 +1,77 @@
+body {
+  background-color: #FFB833;
+}
+
+h1 {
+  padding-top: 40px;
+  text-align: center;
+  font-family: 'Baloo Bhai', cursive;
+  color: red;
+}
+
+img {
+  height: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h3 {
+  text-align: center;
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 900;
+}
+
+h2 {
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 900;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  padding: 5px;
+  margin: 5px;
+  width: 450px;
+}
+
+.burger-list-constainer {
+  padding: 5px;
+}
+
+.container-button {
+  text-align: center;
+}
+
+.burger-list-build {
+  padding-top: 20px;
+  padding-bottom: 15px;
+  position: absolute;
+  width: 300px;
+  background: #F5F4F2;
+  padding-left: 5px;
+
+}
+
+.devour-burger {
+  border-radius: 8px;
+  margin-left: 315px;
+  font-size: .80em;
+}
+
+.devour-burger:hover {
+  background-color: grey;
+  color: white;
+}
+
+.burger-list-devoured {
+  padding: 10px;
+  margin: 5px;
+  background: #F5F4F2;
+}
+
+#delete-all-button {
+  margin-left: 155px
+}

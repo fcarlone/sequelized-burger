@@ -1,0 +1,144 @@
+<h1>Eat-Da-Burger</h1>
+<img src="/assets/img/cartoon-burger.jpg" alt="eat-a-burger">
+
+{{!-- List burgers --}}
+
+<div class="container-content">
+  <div class="container">
+    <div class="row">
+      {{!-- burger false --}}
+      <div class="col">
+        <div class="false-burgers">
+          <h3>Built Burgers</h3>
+          <ul>
+            {{#each burgers}}
+            {{#unless devoured}}
+            <li>
+              <p class="burger-list-constainer">
+                <span class="burger-list-build">{{this.id}}. {{this.burger_name}}</span>
+              </p>
+              <button data-burgerid="{{this.id}}" data-ifdevoured="{{this.devoured}}" class="devour-burger">Devour
+                Burger</button>
+            </li>
+            {{/unless}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+
+      {{!-- burger true --}}
+      <div class="col">
+        <div class="true-burgers">
+          <h3>Devoured Burgers</h3>
+          <ul>
+            {{#each burgers}}
+            {{#if devoured}}
+            <li>
+              <p class="burger-list-devoured">
+                {{this.id}}. {{this.burger_name}}
+              </p>
+            </li>
+            {{/if}}
+            {{/each}}
+          </ul>
+        </div>
+        <div id="delete-all">
+          <button type="button" class="btn btn-danger" id="delete-all-button">Delete All Devoured Burgers</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {{!-- add new burger button --}}
+  <div class="container-button">
+    <h2>Build-Da-Burger</h2>
+    <div id="error-message"></div>
+    <form id="add-burger">
+      <textarea name="burger" type="text" rows="3" cols="50" autofocus></textarea>
+      <div class="submit-button">
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function () {
+
+    // Hide Delete All Devoured Burgers Button
+    $("#delete-all").hide()
+
+    // Handle add burger on-submit event
+    $("#add-burger").on("submit", function (event) {
+      event.preventDefault();
+
+      let addBurger = {
+        burger_name: $("#add-burger [name=burger]").val().trim()
+      };
+
+      if (!addBurger.burger_name) {
+        console.log("length too short")
+      } else {
+        // Send the POST request
+        $.ajax("/api/burgers", {
+          type: "POST",
+          data: addBurger
+        }, function () {
+          console.log('burger added');
+        });
+        // Reload the page to update burger list
+        location.reload();
+      }
+    });
+
+    // Handle devour event - change burger boolean value
+    $(".devour-burger").on("click", function (event) {
+      event.preventDefault();
+      let id = $(this).data("burgerid");
+      let ifDevoured = $(this).data("ifdevoured")
+
+      // Build burger object
+      let newDevouredState = {
+        devoured: ifDevoured
+      };
+
+      // Send the PUT requst
+      $.ajax(`/api/burgers/${id}`, {
+        type: "PUT",
+        data: newDevouredState
+      }, function () {
+        console.log('Burger been devoured');
+      });
+      // Reload the page to update burger list
+      location.reload();
+    });
+
+    // Added Feature - delete all devoured burgers button
+    $("#delete-all-button").on("click", function (event) {
+      console.log("delete all devoured button")
+      event.preventDefault();
+
+      $.ajax("/api/burgers", {
+        type: "DELETE"
+      }).then(function () {
+        console.log("All devoured burgers deleted")
+      })
+      // Reload the page to update burger list
+      location.reload();
+    });
+
+    // Check if any devoured burgers
+    $.get("/api/burgers", function (data) {
+      console.log('data', data);
+      data.forEach((burger) => {
+        if (burger.devoured) {
+          console.log('true')
+          $("#delete-all").show()
+        }
+      });
+    });
+
+  });
+</script>
