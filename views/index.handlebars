@@ -12,15 +12,15 @@
           <h3>Built Burgers</h3>
           <ul>
             {{#each burgers}}
-            {{#unless devoured}}
+            {{#if this.devoured}}
             <li>
               <p class="burger-list-constainer">
-                <span class="burger-list-build">{{this.id}}. {{this.burger_name}}</span>
+                <span class="burger-list-build">{{this.id}}. {{this.burger_name}} {{this.devoured}}</span>
               </p>
               <button data-burgerid="{{this.id}}" data-ifdevoured="{{this.devoured}}" class="devour-burger">Devour
                 Burger</button>
             </li>
-            {{/unless}}
+            {{/if}}
             {{/each}}
           </ul>
         </div>
@@ -32,10 +32,10 @@
           <h3>Devoured Burgers</h3>
           <ul>
             {{#each burgers}}
-            {{#if devoured}}
+            {{#if this.devoured}}
             <li>
               <p class="burger-list-devoured">
-                {{this.id}}. {{this.burger_name}}
+                {{this.id}}. {{this.burger_name}} {{this.devoured}}
               </p>
             </li>
             {{/if}}
@@ -73,11 +73,10 @@
     // Handle add burger on-submit event
     $("#add-burger").on("submit", function (event) {
       event.preventDefault();
-
+      console.log("burger add click event")
       let addBurger = {
         burger_name: $("#add-burger [name=burger]").val().trim()
       };
-
       if (!addBurger.burger_name) {
         console.log("length too short")
       } else {

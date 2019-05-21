@@ -7,16 +7,14 @@ module.exports = function (sequelize, DataTypes) {
     devoured: {
       type: DataTypes.STRING,
       defaultValue: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      field: 'beginTime',
-      defaultValue: sequelize.literal('NOW()')
     }
-  },
-    {
-      timestamps: true,
-    });
+  });
+
+  // Burger.associate = function (models) {
+  //   Burger.hasMany(models.Customer);
+  // };
+
+
   return Burger;
 }
 
